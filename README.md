@@ -14,30 +14,7 @@ Run the executable: bin/WiggleToSite for instructions. See tests/ folder for exa
 # Input file:
 I plan to have a nice user interface that writes this file. For now, it's difficult to understand. 
 Here is an example:
-AdjustableLinkages:
-?_11,?_10,noReverse
-?_10,?_9,noReverse
-?_9,?_8,noReverse
-?_8,?_7,noReverse
-?_7,?_6,noReverse
-?_6,?_5,noReverse
-?_5,?_4,noReverse
-?_13,?_4
-?_14,?_13
-?_15,?_14
-?_16,?_15
-?_17,?_16
-?_18,?_17
-?_19,?_18
-END
-MovingResidues:
-?_19
-?_20
-END
-TargetResidues:
-E_12
-E_13
-END
+https://github.com/gitoliver/WiggleToSite/blob/master/tests/input.txt
 
 # Input file oddities:
 The END lines are essential. 
