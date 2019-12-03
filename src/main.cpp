@@ -42,8 +42,9 @@ int main(int argc, char *argv[])
     WiggleToSite wiggler(movingAss, overlapAss, targetAss, inputFile);
 
     //wiggler.WigglePermutatorDistance();
-  //  wiggler.WiggleSimpleDistance();
-    wiggler.WigglePermutatorDistance(1, 30, 3);
+    wiggler.WiggleSimpleDistance();
+    std::cout << "Simple finished, moving onto Permutator\n";
+    wiggler.WigglePermutatorDistance(5, 30, 3);
 //    wiggler.WiggleDistanceOverlap(5, 5, 1.0);
 //    wiggler.WiggleDistanceOverlap(2, 2, 1.0);
 //    wiggler.WiggleDistanceOverlap(1, 1, 0.5);

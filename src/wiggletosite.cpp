@@ -128,7 +128,7 @@ void WiggleToSite::WiggleSimpleDistance(int interval, int iterations)
         for(auto &linkage : adjustableLinkages_)
         {
             RotatableDihedralVector rotatable_bond_vector = linkage.GetRotatableDihedrals();
-            std::cout << "Working on " << linkage.GetResidues().at(0)->GetId() << "---" << linkage.GetResidues().at(1)->GetId()
+            std::cout << "Simple Working on " << linkage.GetResidues().at(0)->GetId() << "---" << linkage.GetResidues().at(1)->GetId()
                       << " which has " << rotatable_bond_vector.size() << " rotatble bonds." << std::endl;
             double lowest_overlap = this->CalculateOverlaps();
             double lowest_distance = this->CalculateTargetDistance();
@@ -171,8 +171,8 @@ void WiggleToSite::GenerateRotatableDihedralPermutationsDistance(double &lowest_
     std::vector<double> allAngles = rotatableDihedral->GetAllPossibleAngleValues();
     for(auto &angle : allAngles)
     {
-        //std::cout << angle << ", ";
-        //this->WritePdbFile("all.pdb");
+    //    std::cout << angle << ", ";
+    //    this->WritePdbFile("all.pdb");
         rotatableDihedral->SetDihedralAngle(angle);
         if(std::next(rotatableDihedral) != end)
         {
@@ -192,7 +192,7 @@ void WiggleToSite::GenerateRotatableDihedralPermutationsDistance(double &lowest_
             }
         }
     }
-   // std::cout << "\n";
+    //std::cout << std::endl;
     this->SetStashedCoordinates(); // The last one stashed will be the best.
     return;
 }
