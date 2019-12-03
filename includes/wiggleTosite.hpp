@@ -72,6 +72,8 @@ private:
     void ReadInputFile(const std::string inputFile);
     //void GenerateMovingTargetResiduePairs();
     void SortMovingTargetByAtomNameIntoAtomVectors();
+    void SortMovingTargetSuperimpositionByAtomNameIntoAtomVectors();
+    void SuperimposeToTargetResidues(AtomVector supers, AtomVector targets);
     int generatuniqueID();
 
     //////////////////////////////////////////////////////////
@@ -83,10 +85,13 @@ private:
     MolecularModeling::Assembly* target_assembly_;
     ResidueVector movingResidues_;
     ResidueVector targetResidues_;
+    ResidueVector superimpositionResidues_;
+    ResidueVector superimpositionTargetResidues_;
     ResidueLinkageVector adjustableLinkages_;
-  //  ResiduePairVector movingTargetResiduePairs_;
     AtomVector sortedMovingAtoms_;
     AtomVector sortedTargetAtoms_;
+    AtomVector sortedSuperimpositionAtoms_;
+    AtomVector sortedSuperimpositionTargetAtoms_;
 
 };
 

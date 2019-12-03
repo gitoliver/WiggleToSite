@@ -39,6 +39,8 @@ int main(int argc, char *argv[])
     targetAss.BuildStructureByDistance(4, 1.6); // 4 threads, 1.91 cutoff to allow C-S in Cys and Met to be bonded. Nope that did bad things
 
 
+
+
     WiggleToSite wiggler(movingAss, overlapAss, targetAss, inputFile);
 
     //wiggler.WigglePermutatorDistance();

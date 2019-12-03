@@ -17,6 +17,8 @@ WiggleToSite::WiggleToSite(MolecularModeling::Assembly &moving_assembly, Molecul
     this->SetTargetAssembly(target_assembly);
     this->ReadInputFile(inputFile);
     this->SortMovingTargetByAtomNameIntoAtomVectors();
+    this->SortMovingTargetSuperimpositionByAtomNameIntoAtomVectors();
+    this->SuperimposeToTargetResidues(sortedSuperimpositionAtoms_, sortedSuperimpositionTargetAtoms_);
 }
 
 //////////////////////////////////////////////////////////
@@ -252,6 +254,24 @@ void WiggleToSite::ReadInputFile(const std::string inputFile)
                 getline(infile, buffer);
             }
         }
+        if(strInput == "SuperimpositionResidues:")
+        {
+            getline(infile, buffer);
+            while(buffer != "END")
+            {
+                superimpositionResidues_.push_back(selection::FindResidue(*moving_assembly_, buffer));
+                getline(infile, buffer);
+            }
+        }
+        if(strInput == "SuperimpositionTargetResidues:")
+        {
+            getline(infile, buffer);
+            while(buffer != "END")
+            {
+                superimpositionTargetResidues_.push_back(selection::FindResidue(*target_assembly_, buffer));
+                getline(infile, buffer);
+            }
+        }
     }
     return;
 }
@@ -282,11 +302,49 @@ void WiggleToSite::SortMovingTargetByAtomNameIntoAtomVectors()
     return;
 }
 
+void WiggleToSite::SortMovingTargetSuperimpositionByAtomNameIntoAtomVectors()
+{
+    if ( (superimpositionResidues_.size() != superimpositionTargetResidues_.size()) || superimpositionResidues_.empty() )
+    {
+        std::cerr << "Problem in WiggleToSite::SortMovingTargetSuperimpositionByAtomNameIntoAtomVectors()" << std::endl;
+        std::exit(1);
+    }
+    for (int i = 0; i < superimpositionResidues_.size(); ++i)
+    {
+        AtomVector atomsA = superimpositionResidues_.at(i)->GetAtoms();
+        AtomVector atomsB = superimpositionTargetResidues_.at(i)->GetAtoms();
+        for (auto &atomA : atomsA)
+        {
+            for (auto &atomB : atomsB)
+            {
+                if (atomA->GetName() == atomB->GetName())
+                {
+                    sortedSuperimpositionAtoms_.push_back(atomA);
+                    sortedSuperimpositionTargetAtoms_.push_back(atomB);
+                }
+            }
+        }
+    }
+    return;
+}
+
+void WiggleToSite::SuperimposeToTargetResidues(AtomVector supers, MolecularModeling::AtomVector targets)
+{
+    if ( (supers.size() != targets.size() || supers.empty()) )
+    {
+        std::cerr << "Problem in WiggleToSite::SuperimposeToTargetResidues" << std::endl;
+        std::exit(1);
+    }
+    gmml::Superimpose(supers, targets, moving_assembly_->GetAllAtomsOfAssembly());
+    return;
+}
+
 int WiggleToSite::generatuniqueID()
 {
     static int s_id = 0;
     return ++s_id;
 }
+
 
 
 

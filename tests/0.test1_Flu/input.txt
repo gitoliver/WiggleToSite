@@ -22,3 +22,9 @@ TargetResidues:
 E_12
 E_13
 END
+SuperimpositionResidues:
+?_11
+END
+SuperimpositionTargetResidues:
+C_9
+END
