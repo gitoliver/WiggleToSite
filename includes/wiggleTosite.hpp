@@ -1,7 +1,7 @@
 #ifndef WIGGLETOSITE_HPP
 #define WIGGLETOSITE_HPP
 
-#include "../../../gems/gmml/includes/gmml.hpp"
+#include "../../../GLYCAM_Dev_Env/V_2/Web_Programs/gems/gmml/includes/gmml.hpp"
 
 class WiggleToSite
 {

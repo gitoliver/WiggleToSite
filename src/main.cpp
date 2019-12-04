@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../../../gems/gmml/includes/gmml.hpp"
 #include "../includes/io.h"
 #include "../includes/wiggleTosite.hpp"
+#include "gmml.hpp"
 
 //double CalculateAverageDistanceBetweenAtomVectors(AtomVector A, AtomVector B);
 int main(int argc, char *argv[])
@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
 
 
     WiggleToSite wiggler(movingAss, overlapAss, targetAss, inputFile);
+    PdbFileSpace::PdbFile *outputPdbFile = movingAss.BuildPdbFileStructureFromAssembly(-1,0);
+    outputPdbFile->Write(workingDirectory + "/superimposed.pdb");
 
     //wiggler.WigglePermutatorDistance();
     wiggler.WiggleSimpleDistance();
@@ -52,7 +54,6 @@ int main(int argc, char *argv[])
 //    wiggler.WiggleDistanceOverlap(1, 1, 0.5);
 
 
-    PdbFileSpace::PdbFile *outputPdbFile = movingAss.BuildPdbFileStructureFromAssembly(-1,0);
     outputPdbFile->Write(workingDirectory + "/wiggled.pdb");
 
     // Add beads. They make the overlap calculation faster.

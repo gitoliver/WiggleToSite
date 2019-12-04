@@ -190,7 +190,7 @@ void WiggleToSite::GenerateRotatableDihedralPermutationsDistance(double &lowest_
                 this->StashCoordinates();
                 lowest_overlap = current_overlap;
                 lowest_distance = current_distance;
-                this->WritePdbFile("best.pdb");
+              //  this->WritePdbFile("best.pdb");
             }
         }
     }
@@ -222,15 +222,30 @@ void WiggleToSite::ReadInputFile(const std::string inputFile)
             {
                 StringVector splitLine = split(buffer, ',');
                 if(splitLine.size() == 2)
-                {
-                    adjustableLinkages_.emplace_back(selection::FindResidue(*moving_assembly_, splitLine.at(0)), selection::FindResidue(*moving_assembly_, splitLine.at(1))); // Creates ResidueLinkage instance on the vector. Love it.
+                {    // emplace_back creates a ResidueLinkage instance on the vector. Love it.
+                    adjustableLinkages_.emplace_back(selection::FindResidue(*moving_assembly_, splitLine.at(0)), selection::FindResidue(*moving_assembly_, splitLine.at(1)));
                 }
                 else if(splitLine.size() == 3)
                 {
                     if(splitLine.at(2) == "noReverse")
                     {
-                        adjustableLinkages_.emplace_back(selection::FindResidue(*moving_assembly_, splitLine.at(0)), selection::FindResidue(*moving_assembly_, splitLine.at(1)), false); // Creates ResidueLinkage instance on the vector. Love it.
-
+                        adjustableLinkages_.emplace_back(selection::FindResidue(*moving_assembly_, splitLine.at(0)), selection::FindResidue(*moving_assembly_, splitLine.at(1)), false);
+                    }
+                }
+                else if(splitLine.size() == 4)
+                {
+                    bool reverse = true;
+                    if(splitLine.at(2) == "noReverse")
+                    {
+                        reverse = false;
+                    }
+                    if(splitLine.at(3) == "alsoMoveNonBonded")
+                    {
+                        Residue *movingResidue1 = selection::FindResidue(*moving_assembly_, splitLine.at(0));
+                        Residue *movingResidue2 = selection::FindResidue(*moving_assembly_, splitLine.at(1));
+                        AtomVector atomsWithinMolecule = selection::FindOtherAtomsWithinMolecule(movingResidue1->GetAtoms().at(0));
+                        AtomVector nonBondedAtomsWithinAssembly = selection::GetAtomsin_a_Notin_b_AtomVectors(moving_assembly_->GetAllAtomsOfAssembly(), atomsWithinMolecule);
+                        adjustableLinkages_.emplace_back(movingResidue1, movingResidue2, nonBondedAtomsWithinAssembly, reverse);
                     }
                 }
                 getline(infile, buffer);
